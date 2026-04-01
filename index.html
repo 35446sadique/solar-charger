@@ -244,10 +244,57 @@
     margin-bottom:12px;}
   .success-wrap p{color:var(--muted);line-height:1.7;margin-bottom:28px;}
 
+  /* ── CHECKOUT FORM ── */
+  .checkout-grid{display:grid;grid-template-columns:1fr 380px;gap:40px;max-width:1000px;margin:0 auto;}
+  @media(max-width:800px){.checkout-grid{grid-template-columns:1fr;}}
+  .form-section{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:28px;margin-bottom:20px;}
+  .form-section h3{font-weight:700;font-size:1rem;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+  .form-group label{font-size:.82rem;color:var(--muted);font-weight:500;}
+  .form-group input,.form-group select{background:#0d1420;border:1px solid var(--border);
+    color:var(--text);padding:10px 14px;border-radius:8px;
+    font-family:'Outfit',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;}
+  .form-group input:focus,.form-group select:focus{border-color:var(--solar);}
+  .form-group select option{background:#0d1420;}
+  .payment-methods{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+  .pay-opt{flex:1;min-width:100px;background:#0d1420;border:1px solid var(--border);
+    border-radius:8px;padding:12px;text-align:center;cursor:pointer;
+    font-size:.85rem;transition:border-color .2s;font-weight:500;}
+  .pay-opt.active{border-color:var(--solar);color:var(--sun);}
+  .order-side{position:sticky;top:80px;}
+  .order-side-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:24px;}
+  .order-side-box h3{font-weight:700;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+  .order-side-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+  .order-side-item img{width:48px;height:48px;object-fit:cover;border-radius:8px;}
+  .order-side-item-name{font-size:.88rem;font-weight:600;flex:1;}
+  .order-side-item-price{font-size:.88rem;color:var(--sun);font-weight:600;}
+
+  /* ── ORDERS PAGE ── */
+  .orders-wrap{max-width:800px;margin:0 auto;}
+  .order-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-bottom:20px;}
+  .order-header{display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:10px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+  .order-id{font-family:'Bebas Neue',cursive;font-size:1.2rem;color:var(--sky);}
+  .order-date{color:var(--muted);font-size:.82rem;}
+  .order-status{padding:4px 12px;border-radius:50px;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;}
+  .status-confirmed{background:rgba(34,197,94,.15);color:var(--success);border:1px solid rgba(34,197,94,.3);}
+  .status-delivered{background:rgba(0,170,255,.15);color:var(--sky);border:1px solid rgba(0,170,255,.3);}
+  .order-items{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
+  .order-item-row{display:flex;align-items:center;gap:12px;}
+  .order-item-row img{width:44px;height:44px;object-fit:cover;border-radius:8px;}
+  .order-total-row{display:flex;justify-content:space-between;padding-top:14px;border-top:1px solid var(--border);font-weight:700;}
+  .order-total-amt{font-family:'Bebas Neue',cursive;font-size:1.3rem;
+    background:linear-gradient(135deg,var(--sun),var(--sky));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .no-orders{text-align:center;padding:80px 20px;}
+  .no-orders .icon{font-size:4rem;margin-bottom:16px;}
+
   @media(max-width:600px){
     nav{padding:0 4%;}
     .nav-links{display:none;}
     section{padding:60px 4%;}
+    .form-row{grid-template-columns:1fr;}
   }
 </style>
 </head>
@@ -287,6 +334,7 @@
     <li><a href="#" onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
     <li><a href="#" onclick="showPage('shop')" id="nav-shop">Shop</a></li>
     <li><a href="#" onclick="showPage('about')" id="nav-about">About</a></li>
+    <li><a href="#" onclick="showPage('orders')" id="nav-orders">My Orders</a></li>
   </ul>
   <div class="nav-right">
     <button class="cart-btn" onclick="showPage('cart')">
@@ -469,14 +517,107 @@
   </section>
 </div>
 
+<!-- ══════════════════ CHECKOUT PAGE ══════════════════ -->
+<div class="page" id="page-checkout">
+  <section>
+    <button class="back-btn" onclick="showPage('cart')">← Back to Cart</button>
+    <div class="section-label">Checkout</div>
+    <div class="section-title" style="margin-bottom:32px;">Complete Your Order</div>
+    <div class="checkout-grid">
+      <div>
+        <div class="form-section">
+          <h3>📦 Delivery Information</h3>
+          <div class="form-row">
+            <div class="form-group"><label>First Name</label><input type="text" id="co-fname" placeholder="Sadique"/></div>
+            <div class="form-group"><label>Last Name</label><input type="text" id="co-lname" placeholder="Khan"/></div>
+          </div>
+          <div class="form-group"><label>Email</label><input type="email" id="co-email" placeholder="you@email.com"/></div>
+          <div class="form-group"><label>Phone</label><input type="tel" id="co-phone" placeholder="+91 9876543210"/></div>
+          <div class="form-group"><label>Address</label><input type="text" id="co-addr" placeholder="House No, Street, Area"/></div>
+          <div class="form-row">
+            <div class="form-group"><label>City</label><input type="text" id="co-city" placeholder="Mangalore"/></div>
+            <div class="form-group"><label>PIN Code</label><input type="text" id="co-pin" placeholder="575001"/></div>
+          </div>
+          <div class="form-group">
+            <label>State</label>
+            <select id="co-state">
+              <option value="">Select State</option>
+              <option>Karnataka</option><option>Maharashtra</option><option>Tamil Nadu</option>
+              <option>Kerala</option><option>Telangana</option><option>Gujarat</option>
+              <option>Delhi</option><option>Uttar Pradesh</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-section">
+          <h3>💳 Payment Method</h3>
+          <div class="payment-methods">
+            <div class="pay-opt active" id="pay-upi" onclick="selectPay('upi')">📱 UPI</div>
+            <div class="pay-opt" id="pay-card" onclick="selectPay('card')">💳 Card</div>
+            <div class="pay-opt" id="pay-cod" onclick="selectPay('cod')">💵 Cash on Delivery</div>
+            <div class="pay-opt" id="pay-nb" onclick="selectPay('nb')">🏦 Net Banking</div>
+          </div>
+          <div id="pay-upi-fields">
+            <div class="form-group"><label>UPI ID</label><input type="text" id="co-upi" placeholder="yourname@upi"/></div>
+          </div>
+          <div id="pay-card-fields" style="display:none;">
+            <div class="form-group"><label>Card Number</label><input type="text" placeholder="1234 5678 9012 3456"/></div>
+            <div class="form-row">
+              <div class="form-group"><label>Expiry</label><input type="text" placeholder="MM/YY"/></div>
+              <div class="form-group"><label>CVV</label><input type="text" placeholder="123" maxlength="3"/></div>
+            </div>
+          </div>
+          <div id="pay-cod-fields" style="display:none;">
+            <p style="color:var(--muted);font-size:.9rem;padding:12px;background:#0d1420;border-radius:8px;">💵 Pay cash when your order arrives. Extra ₹49 COD charge applies.</p>
+          </div>
+          <div id="pay-nb-fields" style="display:none;">
+            <div class="form-group"><label>Select Bank</label>
+              <select><option>SBI</option><option>HDFC</option><option>ICICI</option><option>Axis</option><option>Kotak</option></select>
+            </div>
+          </div>
+        </div>
+        <button class="btn-primary" style="width:100%;padding:16px;font-size:1rem;" onclick="placeOrder()">🚀 Place Order</button>
+      </div>
+      <div class="order-side">
+        <div class="order-side-box">
+          <h3>Order Summary</h3>
+          <div id="checkout-items"></div>
+          <div style="margin-top:16px;">
+            <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:.9rem;"><span>Subtotal</span><span id="co-subtotal"></span></div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:.9rem;"><span>Shipping</span><span id="co-shipping"></span></div>
+            <div style="display:flex;justify-content:space-between;padding:14px 0 0;border-top:1px solid var(--border);font-weight:700;margin-top:6px;">
+              <span>Total</span>
+              <span style="font-family:'Bebas Neue',cursive;font-size:1.4rem;background:linear-gradient(135deg,var(--sun),var(--sky));-webkit-background-clip:text;-webkit-text-fill-color:transparent;" id="co-total"></span>
+            </div>
+          </div>
+        </div>
+        <div style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:var(--r);padding:16px;margin-top:16px;font-size:.85rem;color:var(--success);">🔒 Secure checkout. Your data is safe.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
 <!-- ══════════════════ SUCCESS PAGE ══════════════════ -->
 <div class="page" id="page-success">
   <div class="success-wrap">
     <div class="success-icon">🎉</div>
     <h2>Order Placed!</h2>
-    <p>Thank you for your order. Your SolarCharger is being prepared. You'll receive a confirmation email shortly.</p>
-    <button class="btn-primary" onclick="showPage('shop')">Continue Shopping</button>
+    <p id="success-msg">Thank you! Your SolarCharger is on its way!</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px;">
+      <button class="btn-primary" onclick="showPage('orders')">View My Orders</button>
+      <button class="btn-outline" onclick="showPage('shop')">Continue Shopping</button>
+    </div>
   </div>
+</div>
+
+<!-- ══════════════════ ORDERS PAGE ══════════════════ -->
+<div class="page" id="page-orders">
+  <section>
+    <div class="orders-wrap">
+      <div class="section-label">History</div>
+      <div class="section-title" style="margin-bottom:32px;">My Orders</div>
+      <div id="orders-body"></div>
+    </div>
+  </section>
 </div>
 
 <!-- FOOTER -->
@@ -491,75 +632,57 @@
 </div>
 
 <script>
-// ─── DATA ───────────────────────────────────────────────
 const PRODUCTS = [
-  {id:1,name:'SolarCharger Lite',
-   img:'solarlite.jpg',
-   price:999.99,badge:'Best Seller',
+  {id:1,name:'SolarCharger Lite',img:'solarlite.jpg',price:999.99,badge:'Best Seller',
    desc:'Our entry-level ultra-thin solar film charger. Weighs just 60g. Perfect for day hikes and travel.',
    specs:['Ultra-thin flexible solar film','~60g total weight','USB-A output','Water-resistant coating','Includes carabiner clip']},
-  {id:2,name:'SolarCharger Pro',
-   img:'solarpro.jpg',
-   price:1099.99,badge:'Most Popular',
+  {id:2,name:'SolarCharger Pro',img:'solarpro.jpg',price:1000.99,badge:'Most Popular',
    desc:'The full-featured adventure charger with dual output, GPS tracking, and backpack integration straps.',
    specs:['Dual USB-A + USB-C output','Built-in GPS tracking','Backpack strap integration','Ultra-thin flexible solar film','Fast-charge compatible','Waterproof rated IPX5']},
-  {id:3,name:'SolarCharger Vest Kit',
-   img:'solarultra.jpg',
-   price:2000.99,badge:'New',
+  {id:3,name:'SolarCharger Vest Kit',img:'solarultra.jpg',price:1500.99,badge:'New',
    desc:'Our solar film pre-integrated into a lightweight outdoor vest. Charge your device hands-free while hiking.',
    specs:['Solar film sewn into back panel','Fully washable vest','Internal battery 10,000mAh','Dual USB ports','One-size-fits-most','Available in 3 colors']},
-  {id:4,name:'SolarCharger Ultra',
-   img:'solarfilm.jpg',
-   price:1990.99,badge:'Pro',
+  {id:4,name:'SolarCharger Ultra',img:'solarfilm.jpg',price:2000.99,badge:'Pro',
    desc:'Maximum power output. Three panel solar array in an ultra-slim folding design for multi-day expeditions.',
    specs:['Triple solar panel array','GPS + Bluetooth tracking','40W peak output','Foldable slim design','Rugged military-grade casing','Includes waterproof carry case']},
-  {id:5,name:'Replacement Solar Film',
-   img:'solarkit.jpg',
-   price:2599.99,badge:null,
+  {id:5,name:'Replacement Solar Film',img:'solarkit.jpg',price:2500.99,badge:null,
    desc:'Genuine SolarCharger replacement solar film. Compatible with all SolarCharger Pro and Ultra models.',
    specs:['Official SolarCharger film','Easy peel-and-stick install','Matches original efficiency','Works with Pro & Ultra','Ships flat, bends to fit']},
-  {id:6,name:'SolarCharger Bundle',
-   img:'solarbundle.jpg',
-   price:2999.99,badge:'Save ₹70',
+  {id:6,name:'SolarCharger Bundle',img:'solarbundle.jpg',price:3000.99,badge:'Save Rs.70',
    desc:'Get the SolarCharger Pro + Vest Kit together at a discounted bundle price. The ultimate adventure setup.',
    specs:['Includes SolarCharger Pro','Includes Vest Kit','Shared GPS dashboard','Priority support access','Extended 2-year warranty']},
 ];
 
-// ─── CART ───────────────────────────────────────────────
 let cart = JSON.parse(localStorage.getItem('sc_cart')||'[]');
+let orders = JSON.parse(localStorage.getItem('sc_orders')||'[]');
 let currentProductId = null;
 let detailQty = 1;
-let detailBackPage = 'shop';
+let selectedPayment = 'upi';
 
 function saveCart(){localStorage.setItem('sc_cart',JSON.stringify(cart));}
+function saveOrders(){localStorage.setItem('sc_orders',JSON.stringify(orders));}
 
 function updateCartCount(){
-  const total = cart.reduce((s,i)=>s+i.qty,0);
-  document.getElementById('cart-count').textContent = total;
+  document.getElementById('cart-count').textContent = cart.reduce((s,i)=>s+i.qty,0);
 }
 
 function addToCart(id,qty=1){
-  const p = PRODUCTS.find(x=>x.id===id);
-  const ex = cart.find(x=>x.id===id);
-  if(ex) ex.qty+=qty;
-  else cart.push({id,qty});
+  const p=PRODUCTS.find(x=>x.id===id);
+  const ex=cart.find(x=>x.id===id);
+  if(ex) ex.qty+=qty; else cart.push({id,qty});
   saveCart();updateCartCount();
-  showToast(`${p.name} added to cart!`);
+  showToast(p.name+' added to cart!');
 }
 
-function removeFromCart(id){
-  cart = cart.filter(x=>x.id!==id);
-  saveCart();updateCartCount();renderCart();
-}
+function removeFromCart(id){cart=cart.filter(x=>x.id!==id);saveCart();updateCartCount();renderCart();}
 
 function changeCartQty(id,delta){
-  const item = cart.find(x=>x.id===id);
+  const item=cart.find(x=>x.id===id);
   if(!item)return;
-  item.qty = Math.max(1,item.qty+delta);
+  item.qty=Math.max(1,item.qty+delta);
   saveCart();updateCartCount();renderCart();
 }
 
-// ─── TOAST ──────────────────────────────────────────────
 let toastTimer;
 function showToast(msg){
   const t=document.getElementById('toast');
@@ -569,126 +692,175 @@ function showToast(msg){
   toastTimer=setTimeout(()=>t.classList.remove('show'),2800);
 }
 
-// ─── PAGE ROUTING ────────────────────────────────────────
 function showPage(name){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-links a').forEach(a=>{
     a.classList.toggle('active',a.id==='nav-'+name);
   });
-  const page = document.getElementById('page-'+name);
+  const page=document.getElementById('page-'+name);
   if(page){page.classList.add('active');window.scrollTo(0,0);}
   if(name==='cart') renderCart();
+  if(name==='checkout') renderCheckoutSummary();
+  if(name==='orders') renderOrders();
 }
 
-// ─── PRODUCTS ───────────────────────────────────────────
 function productCard(p){
-  return `
-  <div class="product-card" onclick="openDetail(${p.id},'${arguments[1]||'shop'}')">
+  return `<div class="product-card" onclick="openDetail(${p.id},'${arguments[1]||'shop'}')">
     <div class="prod-img" style="padding:0;overflow:hidden;">
       ${p.badge?`<div class="badge">${p.badge}</div>`:''}
       <img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;display:block;"/>
     </div>
     <div class="prod-info">
       <div class="prod-name">${p.name}</div>
-      <div class="prod-desc">${p.desc.substring(0,80)}…</div>
+      <div class="prod-desc">${p.desc.substring(0,80)}...</div>
       <div class="prod-footer">
-        <div class="prod-price">₹${p.price.toFixed(2)}</div>
+        <div class="prod-price">Rs.${p.price.toFixed(2)}</div>
         <button class="add-btn" onclick="event.stopPropagation();addToCart(${p.id})">+ Add</button>
       </div>
     </div>
   </div>`;
 }
 
-function renderHome(){
-  document.getElementById('home-products').innerHTML =
-    PRODUCTS.slice(0,3).map(p=>productCard(p,'home')).join('');
-}
+function renderHome(){document.getElementById('home-products').innerHTML=PRODUCTS.slice(0,3).map(p=>productCard(p,'home')).join('');}
+function renderShop(){document.getElementById('shop-products').innerHTML=PRODUCTS.map(p=>productCard(p,'shop')).join('');}
 
-function renderShop(){
-  document.getElementById('shop-products').innerHTML =
-    PRODUCTS.map(p=>productCard(p,'shop')).join('');
-}
-
-function openDetail(id, from='shop'){
-  const p = PRODUCTS.find(x=>x.id===id);
-  currentProductId = id;
-  detailQty = 1;
-  detailBackPage = from;
-  document.getElementById('detail-emoji').innerHTML = `<img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:var(--r);"/>`;
-  document.getElementById('detail-name').textContent = p.name;
-  document.getElementById('detail-desc').textContent = p.desc;
-  document.getElementById('detail-price').textContent = `₹${p.price.toFixed(2)}`;
-  document.getElementById('detail-qty').textContent = 1;
-  document.getElementById('detail-specs').innerHTML = p.specs.map(s=>`<li>${s}</li>`).join('');
-  document.getElementById('detail-back').onclick = ()=>showPage(from);
+function openDetail(id,from='shop'){
+  const p=PRODUCTS.find(x=>x.id===id);
+  currentProductId=id;detailQty=1;
+  document.getElementById('detail-emoji').innerHTML=`<img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:var(--r);"/>`;
+  document.getElementById('detail-name').textContent=p.name;
+  document.getElementById('detail-desc').textContent=p.desc;
+  document.getElementById('detail-price').textContent=`Rs.${p.price.toFixed(2)}`;
+  document.getElementById('detail-qty').textContent=1;
+  document.getElementById('detail-specs').innerHTML=p.specs.map(s=>`<li>${s}</li>`).join('');
+  document.getElementById('detail-back').onclick=()=>showPage(from);
   showPage('detail');
 }
+function changeQty(d){detailQty=Math.max(1,detailQty+d);document.getElementById('detail-qty').textContent=detailQty;}
+function addCurrentToCart(){addToCart(currentProductId,detailQty);}
 
-function changeQty(d){
-  detailQty = Math.max(1, detailQty+d);
-  document.getElementById('detail-qty').textContent = detailQty;
+function cartTotal(){
+  const sub=cart.reduce((s,i)=>{const p=PRODUCTS.find(x=>x.id===i.id);return s+p.price*i.qty;},0);
+  const ship=sub>100?0:8.99;
+  return{sub,ship,total:sub+ship};
 }
 
-function addCurrentToCart(){
-  addToCart(currentProductId, detailQty);
-}
-
-// ─── CART RENDER ─────────────────────────────────────────
 function renderCart(){
-  const el = document.getElementById('cart-body');
+  const el=document.getElementById('cart-body');
   if(cart.length===0){
-    el.innerHTML=`<div class="cart-empty">
-      <div class="empty-icon">🛒</div>
-      <h2>Cart is Empty</h2>
-      <p>Add some products to get started!</p>
-      <br/><button class="btn-primary" onclick="showPage('shop')">Browse Products</button>
-    </div>`;return;
+    el.innerHTML=`<div class="cart-empty"><div class="empty-icon">🛒</div><h2>Cart is Empty</h2><p>Add some products to get started!</p><br/><button class="btn-primary" onclick="showPage('shop')">Browse Products</button></div>`;
+    return;
   }
-  const rows = cart.map(item=>{
+  const rows=cart.map(item=>{
     const p=PRODUCTS.find(x=>x.id===item.id);
     return `<div class="cart-item">
       <img src="${p.img}" alt="${p.name}" style="width:70px;height:70px;object-fit:cover;border-radius:10px;flex-shrink:0;"/>
-      <div class="cart-item-info">
-        <div class="cart-item-name">${p.name}</div>
-        <div class="cart-item-price">₹${(p.price*item.qty).toFixed(2)}</div>
-      </div>
+      <div class="cart-item-info"><div class="cart-item-name">${p.name}</div><div class="cart-item-price">Rs.${(p.price*item.qty).toFixed(2)}</div></div>
       <div class="cart-item-right">
         <div class="qty-box">
-          <button onclick="changeCartQty(${p.id},-1)">−</button>
+          <button onclick="changeCartQty(${p.id},-1)">-</button>
           <span>${item.qty}</span>
           <button onclick="changeCartQty(${p.id},1)">+</button>
         </div>
-        <button class="remove-btn" onclick="removeFromCart(${p.id})">🗑</button>
+        <button class="remove-btn" onclick="removeFromCart(${p.id})">X</button>
       </div>
     </div>`;
   }).join('');
-
-  const subtotal = cart.reduce((s,i)=>{
-    const p=PRODUCTS.find(x=>x.id===i.id);
-    return s+p.price*i.qty;
-  },0);
-  const shipping = subtotal>100?0:8.99;
-  const total = subtotal+shipping;
-
-  el.innerHTML = rows + `
-  <div class="cart-summary">
-    <div class="summary-row"><span>Subtotal</span><span>₹${subtotal.toFixed(2)}</span></div>
-    <div class="summary-row"><span>Shipping</span><span>${shipping===0?'<span style="color:var(--success)">FREE</span>':'₹'+shipping.toFixed(2)}</span></div>
-    <div class="summary-row total"><span>Total</span><span class="amount">₹${total.toFixed(2)}</span></div>
-    <button class="checkout-btn" onclick="doCheckout()">Proceed to Checkout ⚡</button>
-    ${subtotal<100?`<p style="text-align:center;color:var(--muted);font-size:.82rem;margin-top:10px;">Add ₹${(100-subtotal).toFixed(2)} more for free shipping!</p>`:''}
+  const {sub,ship,total}=cartTotal();
+  el.innerHTML=rows+`<div class="cart-summary">
+    <div class="summary-row"><span>Subtotal</span><span>Rs.${sub.toFixed(2)}</span></div>
+    <div class="summary-row"><span>Shipping</span><span>${ship===0?'<span style="color:var(--success)">FREE</span>':'Rs.'+ship.toFixed(2)}</span></div>
+    <div class="summary-row total"><span>Total</span><span class="amount">Rs.${total.toFixed(2)}</span></div>
+    <button class="checkout-btn" onclick="goCheckout()">Proceed to Checkout</button>
+    ${sub<100?`<p style="text-align:center;color:var(--muted);font-size:.82rem;margin-top:10px;">Add Rs.${(100-sub).toFixed(2)} more for free shipping!</p>`:''}
   </div>`;
 }
 
-function doCheckout(){
+function goCheckout(){if(cart.length===0){showToast('Cart is empty!');return;}showPage('checkout');}
+
+function renderCheckoutSummary(){
+  const {sub,ship,total}=cartTotal();
+  document.getElementById('co-subtotal').textContent='Rs.'+sub.toFixed(2);
+  document.getElementById('co-shipping').textContent=ship===0?'FREE':'Rs.'+ship.toFixed(2);
+  document.getElementById('co-total').textContent='Rs.'+total.toFixed(2);
+  document.getElementById('checkout-items').innerHTML=cart.map(item=>{
+    const p=PRODUCTS.find(x=>x.id===item.id);
+    return `<div class="order-side-item">
+      <img src="${p.img}" alt="${p.name}"/>
+      <span class="order-side-item-name">${p.name} x${item.qty}</span>
+      <span class="order-side-item-price">Rs.${(p.price*item.qty).toFixed(2)}</span>
+    </div>`;
+  }).join('');
+}
+
+function selectPay(method){
+  selectedPayment=method;
+  ['upi','card','cod','nb'].forEach(m=>{
+    document.getElementById('pay-'+m).classList.toggle('active',m===method);
+    document.getElementById('pay-'+m+'-fields').style.display=m===method?'block':'none';
+  });
+}
+
+function placeOrder(){
+  const fname=document.getElementById('co-fname').value.trim();
+  const email=document.getElementById('co-email').value.trim();
+  const phone=document.getElementById('co-phone').value.trim();
+  const addr=document.getElementById('co-addr').value.trim();
+  const city=document.getElementById('co-city').value.trim();
+  const pin=document.getElementById('co-pin').value.trim();
+  if(!fname||!email||!phone||!addr||!city||!pin){
+    showToast('Please fill all delivery fields!');return;
+  }
+  const {sub,ship,total}=cartTotal();
+  const orderId='SC'+Date.now().toString().slice(-6);
+  const order={
+    id:orderId,
+    date:new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}),
+    items:cart.map(i=>({id:i.id,qty:i.qty})),
+    subtotal:sub,shipping:ship,total:total,
+    address:`${fname}, ${addr}, ${city} - ${pin}`,
+    payment:selectedPayment.toUpperCase(),
+    status:'Confirmed'
+  };
+  orders.unshift(order);
+  saveOrders();
   cart=[];saveCart();updateCartCount();
+  document.getElementById('success-msg').textContent=`Order #${orderId} confirmed! Delivering to ${city}.`;
   showPage('success');
 }
 
-// ─── INIT ────────────────────────────────────────────────
-renderHome();
-renderShop();
-updateCartCount();
+function renderOrders(){
+  const el=document.getElementById('orders-body');
+  if(orders.length===0){
+    el.innerHTML=`<div class="no-orders"><div class="icon">📦</div><h2 style="font-family:'Bebas Neue',cursive;font-size:2rem;margin-bottom:10px;">No Orders Yet</h2><p style="color:var(--muted);">Your orders will appear here after you place them.</p><br/><button class="btn-primary" onclick="showPage('shop')">Start Shopping</button></div>`;
+    return;
+  }
+  el.innerHTML=orders.map(order=>{
+    const itemsHTML=order.items.map(i=>{
+      const p=PRODUCTS.find(x=>x.id===i.id);
+      if(!p)return'';
+      return `<div class="order-item-row">
+        <img src="${p.img}" alt="${p.name}"/>
+        <div style="flex:1"><div style="font-weight:600;font-size:.9rem;">${p.name}</div><div style="color:var(--muted);font-size:.82rem;">Qty: ${i.qty}</div></div>
+        <div style="color:var(--sun);font-weight:600;font-size:.9rem;">Rs.${(p.price*i.qty).toFixed(2)}</div>
+      </div>`;
+    }).join('');
+    const statusClass=order.status==='Delivered'?'status-delivered':'status-confirmed';
+    return `<div class="order-card">
+      <div class="order-header">
+        <div>
+          <div class="order-id">Order #${order.id}</div>
+          <div class="order-date">${order.date} • ${order.payment} • ${order.address}</div>
+        </div>
+        <span class="order-status ${statusClass}">${order.status}</span>
+      </div>
+      <div class="order-items">${itemsHTML}</div>
+      <div class="order-total-row"><span>Total Paid</span><span class="order-total-amt">Rs.${order.total.toFixed(2)}</span></div>
+    </div>`;
+  }).join('');
+}
+
+renderHome();renderShop();updateCartCount();
 </script>
 </body>
 </html>
